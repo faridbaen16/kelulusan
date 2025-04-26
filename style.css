@@ -1,54 +1,70 @@
+/* style.css */
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f0f4f7;
+  background-color: #f4f6f8;
   margin: 0;
   padding: 0;
   text-align: center;
 }
+
 .container {
-  padding: 30px;
+  margin-top: 50px;
+  padding: 20px;
 }
+
 .logo {
   margin-bottom: 20px;
 }
+
+h2 {
+  color: #2e7d32;
+}
+
+p {
+  color: #555;
+}
+
 .input {
-  width: 80%;
   padding: 10px;
-  margin: 10px 0;
-  font-size: 16px;
-}
-.btn {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 12px 24px;
+  width: 250px;
   margin-top: 10px;
-  cursor: pointer;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   font-size: 16px;
 }
+
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #1b5e20;
 }
-#hasilKelulusan {
-  margin-top: 20px;
-  font-size: 18px;
-}
+
 .loading {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-top: 50px;
 }
+
 .spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #2e7d32;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
-  border: 6px solid #ccc;
-  border-top-color: #007BFF;
-  border-radius: 50%;
   animation: spin 1s linear infinite;
+  margin-bottom: 10px;
 }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
