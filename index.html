@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pengumuman Kelulusan - MA MA'ARIF NU 5 SEKAMPUNG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container" id="sambutan">
+  <img src="assets/logo.png" alt="Logo" width="150" class="logo">
+  <h2>Pengumuman Kelulusan Siswa/i Tahun 2025</h2>
+  <p>Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+  <p>Selamat kepada seluruh taruna/i MA MA'ARIF NU 5 SEKAMPUNG yang telah menyelesaikan pendidikan selama 3 tahun. Semoga ilmu yang diperoleh bermanfaat dan menjadi bekal untuk masa depan.</p>
+  <button id="loginBtn" class="btn">LOGIN untuk Cek Kelulusan</button>
+</div>
+
+<div class="container" id="formNISN" style="display:none;">
+  <h2>Cek Kelulusan</h2>
+  <input type="text" id="nisnInput" placeholder="Masukkan NISN Anda" class="input">
+  <input type="date" id="tglLahirInput" class="input">
+  <button onclick="cekKelulusan()" class="btn">Cek</button>
+  <div id="hasilKelulusan"></div>
+</div>
+
+<div id="loading" class="loading" style="display:none;">
+  <div class="spinner"></div>
+  <p>Loading...</p>
+</div>
+
+<script>
+const loginBtn = document.getElementById('loginBtn');
+const formNISN = document.getElementById('formNISN');
+const sambutan = document.getElementById('sambutan');
+const loading = document.getElementById('loading');
+
+loginBtn.addEventListener('click', () => {
+  sambutan.style.display = 'none';
+  formNISN.style.display = 'block';
+});
+
+function cekKelulusan() {
+  const nisn = document.getElementById('nisnInput').value.trim();
+  const tglLahir = document.getElementById('tglLahirInput').value.trim();
+
+  if (!nisn || !tglLahir) {
+    alert('NISN dan Tanggal Lahir harus diisi!');
+    return;
+  }
+
+  loading.style.display = 'flex';
+
+  fetch(`https://sheetdb.io/api/v1/o92xhth4o65mg/search?NISN=${nisn}`)
+    .then(response => response.json())
+    .then(data => {
+      loading.style.display = 'none';
+      const hasil = document.getElementById('hasilKelulusan');
+      if (data.length > 0) {
+        const siswa = data[0];
+        if (siswa['Tanggal Lahir'] === tglLahir) {
+          hasil.innerHTML = `<h3>${siswa['Nama Peserta']}</h3><p>Status: <strong>${siswa.Status}</strong></p>`;
+          if (siswa.Status === "LULUS") {
+            hasil.innerHTML += `<p>Silahkan ambil Surat Keterangan Lulus di Ruang Administrasi dengan berpakaian rapi dan sopan.</p>`;
+          }
+        } else {
+          hasil.innerHTML = '<p>Data tidak cocok. Pastikan NISN dan Tanggal Lahir sesuai.</p>';
+        }
+      } else {
+        hasil.innerHTML = '<p>Data tidak ditemukan.</p>';
+      }
+    })
+    .catch(error => {
+      loading.style.display = 'none';
+      console.error('Error:', error);
+      alert('Terjadi kesalahan. Silakan coba lagi.');
+    });
+}
+</script>
+
+</body>
+</html>
